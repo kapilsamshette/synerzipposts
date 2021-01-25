@@ -1,0 +1,77 @@
+<div class="row">
+    <div class="col-md-12">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-horizontal" *ngIf="!isError">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sign Up</h3>
+                    <h4 style="color:green" *ngIf="isError">{{errorMessage}}</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group" [class.has-error]="registerFormError.name">
+                        <label class="col-sm-2 control-label" for="name">Full Name</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="name" id="name" class="form-control" formControlName="name" (blur)="logValidationErrors()">
+                            <span class="help-block"  *ngIf="registerFormError.name">
+                                {{registerFormError.name}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group" [class.has-error]="registerFormError.email">
+                        <label class="col-sm-2 control-label" for="email">Email</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="email" id="email" class="form-control" formControlName="email" (blur)="logValidationErrors()" (blur)="checkExistingUsername()">
+                            <span class="help-block" *ngIf="registerFormError.email">
+                                {{registerFormError.email}}
+							</span>
+							<span class="help-block" *ngIf="existingUserCheck">Email Already Exists</span>
+				        </div>
+                    </div>
+					
+					<div formGroupName="passwordGroup">
+						<div class="form-group" [class.has-error]="registerFormError.password">
+							<label class="col-sm-2 control-label" for="password">Password</label>
+							<div class="col-sm-8">
+								<input type="password" name="password" id="password" class="form-control" formControlName="password" (blur)="logValidationErrors()">
+								<span class="help-block"  *ngIf="registerFormError.password">
+									{{registerFormError.password}}
+								</span>
+							</div>
+						</div>
+						<div class="form-group" [class.has-error]="registerFormError.confirm_password || registerFormError.passwordGroup">
+							<label class="col-sm-2 control-label" for="confirm_password">Confirm Password</label>
+							<div class="col-sm-8">
+								<input type="password" name="confirm_password" id="confirm_password" class="form-control" formControlName="confirm_password" (blur)="logValidationErrors()">
+								<span class="help-block" *ngIf="registerFormError.confirm_password || registerFormError.passwordGroup">
+									{{registerFormError.confirm_password ? registerFormError.confirm_password : registerFormError.passwordGroup}}
+								</span>
+							</div>
+						</div>
+					</div>
+
+
+					
+					<div class="form-group" [class.has-error]="registerFormError.accept_term">
+						<label class="col-sm-2 control-label" for="accept_term"></label>
+						<div class="col-sm-8">
+                            <mat-checkbox class="example-margin" name="accept_term" id="accept_term" formControlName="accept_term" (blur)="logValidationErrors()">Term & condition</mat-checkbox>
+							<!-- <input type="checkbox" name="accept_term" id="accept_term" formControlName="accept_term" (blur)="logValidationErrors()"> -->
+							<span class="help-block" *ngIf="registerFormError.accept_term">{{registerFormError.accept_term}}</span>
+						</div>
+					</div>
+
+					
+                    <div class="form-group" >
+                        <div class="col-md-2"></div>
+                        <div class="col-sm-8">
+                            <button class="btn btn-primary" style="margin-left:2px" type="submit">Submit</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </form>
+		
+		<h1 style="color:green" *ngIf="isError">{{errorMessage}}</h1>
+    	<h3 *ngIf="isError">Please login through <a [routerLink]="['../login']" href="javascript:void(0)" > Login page </a></h3>
+    </div>
+</div>
